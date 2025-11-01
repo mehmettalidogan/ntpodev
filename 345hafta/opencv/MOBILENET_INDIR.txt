@@ -1,0 +1,45 @@
+========================================
+MobileNet-SSD MODEL İNDİRME
+========================================
+
+2 dosya indirmeniz gerekiyor (~23 MB total):
+
+1️⃣ CONFIG DOSYASI (MobileNetSSD_deploy.prototxt)
+Link: https://raw.githubusercontent.com/chuanqi305/MobileNet-SSD/master/deploy.prototxt
+
+2️⃣ MODEL DOSYASI (MobileNetSSD_deploy.caffemodel)
+Link: https://github.com/chuanqi305/MobileNet-SSD/raw/master/mobilenet_iter_73000.caffemodel
+
+========================================
+
+NASIL İNDİRİLİR?
+
+1) İlk linke gidin (prototxt) → Sağ tıklayın → "Farklı Kaydet" → İsim: MobileNetSSD_deploy.prototxt
+
+2) İkinci linke gidin (caffemodel) → Otomatik inecek (~23 MB) → İsim: MobileNetSSD_deploy.caffemodel
+
+3) Her iki dosyayı şuraya koyun:
+   C:\Users\lenovo\Desktop\projects\ntpodev\opencv\models\
+
+========================================
+
+KONTROLE:
+✓ models\MobileNetSSD_deploy.prototxt (~29 KB)
+✓ models\MobileNetSSD_deploy.caffemodel (~23 MB)
+
+========================================
+
+ÇALIŞTIRMA:
+1) dotnet run
+2) "Kamerayı Başlat"
+3) Mod: "🎯 Nesne Tanıma (MobileNet)"
+4) Telefonunuzu kameraya tutun!
+
+TANIYABİLECEĞİ NESNELER:
+✓ İnsan, Araba, Bisiklet, Motosiklet
+✓ Uçak, Otobüs, Tren, Tekne
+✓ Kedi, Köpek, At, İnek, Kuş, Koyun
+✓ Şişe, Sandalye, Kanepe, Masa, Televizyon
+
+========================================
+

@@ -1,0 +1,29 @@
+================================
+YOLO MODEL İNDİRME TALİMATI
+================================
+
+SORUN: yolov3-tiny.weights dosyası bozuk (8 KB yerine 33 MB olmalı)
+
+ÇÖZÜM:
+
+1) Bu linki tarayıcınıza kopyalayın:
+   https://pjreddie.com/media/files/yolov3-tiny.weights
+
+2) Enter'a basın - dosya otomatik inecek (~33 MB, 30-60 saniye)
+
+3) İndirilen dosyayı buraya taşıyın:
+   C:\Users\lenovo\Desktop\projects\ntpodev\opencv\models\
+
+4) Eski bozuk dosyayı silin, yenisini kopyalayın
+
+5) Uygulamayı çalıştırın:
+   dotnet run
+
+VEYA PowerShell ile otomatik:
+
+$url = "https://pjreddie.com/media/files/yolov3-tiny.weights"
+$out = "models\yolov3-tiny.weights"
+(New-Object System.Net.WebClient).DownloadFile($url, $out)
+
+================================
+
